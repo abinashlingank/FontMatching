@@ -31,6 +31,8 @@ The font classification model is built using a Convolutional Neural Network (CNN
 ### 3. Training Dataset
 
 The training dataset consists of synthetic images with the text "Hello, World!" in different fonts. These images are used to train the font classification model.
+We have trained the model using Google Colab.
+Refer the Python notebook from this link https://github.com/abinashlingank/FontMatching/blob/main/FontMatching.ipynb
 
 ### 4. Streamlit Application
 
@@ -40,13 +42,16 @@ A Streamlit web application is created for easy visualization and usage of the f
 
 To generate synthetic data, run the generate_data.py script. This script creates images with the text "Hello, World!" in various font styles and saves them to the dataset directory.
 
-bash
+```bash
 python generate_data.py
-
+```
 
 ## Model Architecture
 
 The CNN architecture used for font classification consists of Conv2D layers, MaxPooling2D layers, Flatten layers, and Dense layers. The model is defined and trained in the train.py script.
+
+
+![model_architecture](https://github.com/abinashlingank/FontMatching/assets/114637586/06e95bd4-a78f-4932-829f-1d563abfdbed)
 
 ## Training Dataset
 
@@ -60,38 +65,35 @@ To run the Streamlit application locally, follow these steps:
 
 1. Make sure you have Streamlit installed. If not, install it using the following command:
 
-bash
+```bash
 pip install streamlit
-
+```
 2. Run the following command to start the Streamlit application:
 
-bash
+```bash
 streamlit run app.py
-
+```
 
 This will launch the web application locally, allowing users to upload images and receive font recommendations.
 
 ## How to Run It with Colab?
 
-1. Upload the repository to your Google Drive.
-2. Open the font_matching_colab.ipynb notebook in Google Colab.
-3. Mount your Google Drive by executing the following code snippet in a cell:
-python
-from google.colab import drive
-drive.mount('/content/drive')
-
-4. Navigate to the repository directory using the following command:
-bash
-cd /content/drive/MyDrive/path_to_repository
-
-Replace path_to_repository with the actual path where the repository is located in your Google Drive.
-
-5. Run the notebook cells in font_matching_colab.ipynb to generate synthetic data, train the model, and deploy the Streamlit application.
-6. To deploy the Streamlit application in Colab, run the following command in a cell:
-python
-!pip install streamlit
-!wget -q -O - ipv4.icanhazip.com
-!streamlit run app.py & npx localtunnel --port 8501
-
+1. Open a new notebook in Google Colab.
+2. Download the model from the drive link https://drive.google.com/file/d/1RZuSYuPByXn0uNDyOqgeDkZdT5yyOKtm/view?usp=sharing
+3. Download app.py file from the drive link https://drive.google.com/file/d/1r10_AOUg5bv94Dv9Ioo1ImvLQUDqYvyl/view?usp=sharing
+4. Upload the downloaded model file and the app.py file to the Google Colab notebook.
+5. Install streamlit using the command
+```python
+!pip install streamlit```
+7. To deploy the Streamlit application in Colab, run the following command in a cell:
+```python
+!wget -q -O - ipv4.icanhazip.com```
+```python
+!streamlit run app.py & npx localtunnel --port 8501```
+8. In the final cell, it will produce a link
+https://quick-worms-kiss.loca.lt/
+9. Go to the link. Then, it will ask for the tunnel passcode, which is available in the last cell output (e.g.,34.125.239.107:8501).
+10. Now upload any font image file into it.
+11. Finally, the output is displayed.
 
 This will start the Streamlit application server in the background, and you can access the application using the generated URL.
