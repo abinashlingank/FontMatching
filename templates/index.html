@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Detection</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <div id="drop_zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragenter="handleDragEnter(event)" ondragleave="handleDragLeave(event)">
+        Drag & Drop an image file here or click to choose one
+    </div>
+    <form id="upload_form" action="/upload" method="post" enctype="multipart/form-data" style="display: none;">
+        <input type="file" id="file_input" name="file" accept="image/*">
+    </form>
+    <script src="./script.js"></script>
+</body>
+</html>
