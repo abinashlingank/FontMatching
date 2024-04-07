@@ -84,12 +84,17 @@ This will launch the web application locally, allowing users to upload images an
 4. Upload the downloaded model file and the app.py file to the Google Colab notebook.
 5. Install streamlit using the command
 ```python
-!pip install streamlit```
+!pip install streamlit
+```
 7. To deploy the Streamlit application in Colab, run the following command in a cell:
 ```python
-!wget -q -O - ipv4.icanhazip.com```
+!wget -q -O - ipv4.icanhazip.com
+```
+
 ```python
-!streamlit run app.py & npx localtunnel --port 8501```
+!streamlit run app.py & npx localtunnel --port 8501
+```
+
 8. In the final cell, it will produce a link
 https://quick-worms-kiss.loca.lt/
 9. Go to the link. Then, it will ask for the tunnel passcode, which is available in the last cell output (e.g.,34.125.239.107:8501).
