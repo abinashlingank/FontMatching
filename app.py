@@ -1,79 +1,62 @@
-from flask import Flask, render_template, request, redirect, url_for
-import cv2
-import numpy as np
-import tensorflow as tf
 
-app = Flask(__name__)
+import streamlit as st
+from PIL import Image
+import numpy as np
+import cv2
+import pytesseract
+from tensorflow.keras.models import load_model
 
 # Load the trained model
-#loadedModel = tf.keras.models.load_model("FontMatchingModel")
+model_path = "fontMatchingModel.h5"
+model = load_model(model_path)
 
-# Function to preprocess input image for inference
-def preprocessImage(imagePath):
-    img = cv2.imread(imagePath, cv2.IMREAD_GRAYSCALE)
-    img = cv2.resize(img, (32, 32))
-    img = np.expand_dims(img, axis=0)
-    img = np.expand_dims(img, axis=-1)
-    return img
+fonts_data=['Arimo', 'Dancing_Script', 'Fredoka', 'Noto_Sans', 'Open_Sans', 'Oswald', 'Patua_One', 'PT_Serif', 'Roboto', 'Ubuntu']
 
-# Function to perform inference and draw bounding boxes
-def detectAndLabelFonts(imagePath, model):
-    img = cv2.imread(imagePath)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# Function to predict label for a given image
+def predict_label_for_image(cropped_img, model):
+    resized_img = cv2.resize(cropped_img, (400, 100))
+    gray_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
+    input_img = gray_img.reshape((1, 100, 400, 1))
+    predicted_label = model.predict(input_img)
+    predicted_class = np.argmax(predicted_label)
+    return predicted_class
+
+# Function to process the uploaded image
+def process_image(image):
+    # Convert image to OpenCV format
+    img_array = np.array(image)
+    img_array = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
     
-    # Perform text detection (you can replace this with your text detection method)
-    # For demonstration purposes, we'll just assume we have a single text region
-    textRegion = gray
+    # Preprocess the image
+    gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU, 11)
     
-    # Perform font classification on the detected text region
-    fontIndex, confidence = classifyFont(textRegion, model)
-    fontLabel = fontNames[fontIndex]  # Replace fontNames with your list of font names
+    # Detect text using Tesseract OCR
+    raw_data = pytesseract.image_to_data(thresh)
     
-    # Draw bounding box around the detected text region
-    h, w = textRegion.shape
-    cv2.rectangle(img, (0, 0), (w, h), (0, 255, 0), 2)
+    # Draw rectangles around detected words and predict font using the model
+    for count, data in enumerate(raw_data.splitlines()):
+        if count > 0:
+            data = data.split()
+            if len(data) == 12:
+                x, y, w, h, content = int(data[6]), int(data[7]), int(data[8]), int(data[9]), data[11]
+                cv2.rectangle(img_array, (x, y), (w+x, h+y), (255, 255, 0), 1)
+                cropped_image = img_array[y:h+y, x:w+x]
+                predicted_label = predict_label_for_image(cropped_image, model)
+                cv2.putText(img_array, str(fonts_data[predicted_label]), (x, y), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255) , 1)
     
-    # Label the detected font with confidence
-    label = f"{fontLabel}: {confidence:.2f}"
-    cv2.putText(img, label, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
- 
-    # Save the result image
-    resultImagePath = "static/result_image.jpg"
-    cv2.imwrite(resultImagePath, img)
+    return img_array
+
+# Streamlit app
+st.title("Font Matching (Font Style Detection)")
+
+uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+
+if uploaded_file is not None:
+    # Read the uploaded image
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image', use_column_width=True)
     
-    return resultImagePath
-
-# Function to perform font classification
-def classifyFont(textRegion, model):
-    textRegion = cv2.resize(textRegion, (32, 32))
-    textRegion = np.expand_dims(textRegion, axis=0)
-    textRegion = np.expand_dims(textRegion, axis=-1)
-    prediction = model.predict(textRegion)
-    fontIndex = np.argmax(prediction)
-    confidence = np.max(prediction)
-    return fontIndex, confidence
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/upload', methods=['POST'])
-def uploadImage():
-    if request.method == 'POST':
-        # Check if a file was uploaded
-        if 'file' not in request.files:
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            return redirect(request.url)
-
-        # Save the uploaded file
-        uploadedImagePath = "static/uploaded_image.jpg"
-        file.save(uploadedImagePath)
-
-        # Perform font detection and labeling
-        resultImagePath = detectAndLabelFonts(uploadedImagePath, loadedModel)
-        return render_template('result.html', result_image=resultImagePath)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    # Process the image and display the result
+    processed_image = process_image(image)
+    st.image(processed_image, caption='Processed Image', use_column_width=True)
