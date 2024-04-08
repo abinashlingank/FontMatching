@@ -5,16 +5,25 @@ This repository contains Python implementations for font matching using computer
 ## Contents
 
 1. [Introduction](#introduction)
-2. [Implementation](#implementation)
-3. [Generating Synthetic Data](#generating-synthetic-data)
-4. [Model Architecture](#model-architecture)
-5. [Training Dataset](#training-dataset)
-6. [Streamlit Application](#streamlit-application)
-7. [How to Run It with Colab?](#how-to-run-it-with-colab)
+2. [Hosted Information](#hosted-information)
+3. [Implementation](#implementation)
+4. [Generating Synthetic Data](#generating-synthetic-data)
+5. [Model Architecture](#model-architecture)
+6. [Training Dataset](#training-dataset)
+7. [Streamlit Application](#streamlit-application)
+8. [How to Run It with Colab?](#how-to-run-it-with-colab)
 
 ## Introduction
 
 Font matching is a computer vision and deep learning project aimed at classifying the fonts used in images containing the text "Hello, World!" The goal is to provide recommendations for matching fonts with confidence levels, enhancing the user's ability to replicate font styles from uploaded images.
+## Hosted Information
+
+I have hosted the my model using Amazon AWS with Streamlit
+link: https://fresh-mails-play.loca.lt
+passcode: 51.20.138.168
+
+If you want run it by your own. I recommend you to run it colab
+[instruction here](#how-to-run-it-with-colab)
 
 ## Implementation
 
@@ -32,7 +41,7 @@ The font classification model is built using a Convolutional Neural Network (CNN
 
 The training dataset consists of synthetic images with the text "Hello, World!" in different fonts. These images are used to train the font classification model.
 We have trained the model using Google Colab.
-Refer the Python notebook from this link https://github.com/abinashlingank/FontMatching/blob/main/FontMatching.ipynb
+Refer the Python notebook from this [link](#https://github.com/abinashlingank/FontMatching/blob/main/FontMatching.ipynb)
 
 ### 4. Streamlit Application
 
@@ -43,8 +52,21 @@ A Streamlit web application is created for easy visualization and usage of the f
 To generate synthetic data, run the generate_data.py script. This script creates images with the text "Hello, World!" in various font styles and saves them to the dataset directory.
 
 ```bash
-python generate_data.py
+python dataset.py
 ```
+## Preprocessing Steps
+
+I have done the following preprocessing steps.
+
+# Augumentation Steps
+1. Noise
+2. Blur
+3. Perpective Rotation
+4. Shading
+5. Variable Character Spacing
+6. Variable Aspect Ratio
+
+you can it from the file named `preprocessor.py`
 
 ## Model Architecture
 
@@ -57,7 +79,6 @@ The CNN architecture used for font classification consists of Conv2D layers, Max
 
 The training dataset is located in the dataset directory. It contains synthetic images with the text "Hello, World!" in different fonts.
 
-## Streamlit Application
 
 ## Streamlit Application
 
@@ -79,8 +100,8 @@ This will launch the web application locally, allowing users to upload images an
 ## How to Run It with Colab?
 
 1. Open a new notebook in Google Colab.
-2. Download the model from the drive link https://drive.google.com/file/d/1RZuSYuPByXn0uNDyOqgeDkZdT5yyOKtm/view?usp=sharing
-3. Download app.py file from the drive link https://drive.google.com/file/d/1r10_AOUg5bv94Dv9Ioo1ImvLQUDqYvyl/view?usp=sharing
+2. Download the model from the [drive link](#https://drive.google.com/file/d/1RZuSYuPByXn0uNDyOqgeDkZdT5yyOKtm/view?usp=sharing)
+3. Download app.py file from the [drive link](#https://drive.google.com/file/d/1r10_AOUg5bv94Dv9Ioo1ImvLQUDqYvyl/view?usp=sharing)
 4. Upload the downloaded model file and the app.py file to the Google Colab notebook.
 5. Install streamlit using the command
 ```python
