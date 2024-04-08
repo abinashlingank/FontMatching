@@ -20,7 +20,8 @@ Font matching is a computer vision and deep learning project aimed at classifyin
 
 I have hosted the my model using Amazon AWS with Streamlit
 link: https://fresh-mails-play.loca.lt
-passcode: 51.20.138.168
+
+passcode: ```51.20.138.168```
 
 If you want run it by your own. I recommend you to run it colab
 [instruction here](#how-to-run-it-with-colab)
@@ -41,7 +42,7 @@ The font classification model is built using a Convolutional Neural Network (CNN
 
 The training dataset consists of synthetic images with the text "Hello, World!" in different fonts. These images are used to train the font classification model.
 We have trained the model using Google Colab.
-Refer the Python notebook from this [link](#https://github.com/abinashlingank/FontMatching/blob/main/FontMatching.ipynb)
+Refer the Python notebook from this [link](https://github.com/abinashlingank/FontMatching/blob/main/FontMatching.ipynb)
 
 ### 4. Streamlit Application
 
@@ -100,8 +101,8 @@ This will launch the web application locally, allowing users to upload images an
 ## How to Run It with Colab?
 
 1. Open a new notebook in Google Colab.
-2. Download the model from the [drive link](#https://drive.google.com/file/d/1RZuSYuPByXn0uNDyOqgeDkZdT5yyOKtm/view?usp=sharing)
-3. Download app.py file from the [drive link](#https://drive.google.com/file/d/1r10_AOUg5bv94Dv9Ioo1ImvLQUDqYvyl/view?usp=sharing)
+2. Download the model from the [drive link](https://drive.google.com/file/d/1RZuSYuPByXn0uNDyOqgeDkZdT5yyOKtm/view?usp=sharing)
+3. Download app.py file from the [drive link](https://drive.google.com/file/d/1r10_AOUg5bv94Dv9Ioo1ImvLQUDqYvyl/view?usp=sharing)
 4. Upload the downloaded model file and the app.py file to the Google Colab notebook.
 5. Install streamlit using the command
 ```python
